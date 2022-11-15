@@ -9,6 +9,7 @@ import 'dart:async';
 import 'package:flutter_native_timezone/flutter_native_timezone.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
+import 'package:async/async.dart';
 
 const AndroidNotificationChannel channelFire = AndroidNotificationChannel(
   'chanel_id_fire',
@@ -133,6 +134,34 @@ class _NotificationPageState extends State<NotificationPage> {
             });
       }
     });
+  }
+
+  //RestartableTimer _timer2 = RestartableTimer(Duration(seconds: 1), (() {}));
+  Timer? _timer;
+  int _start = 5;
+  void _startTimer() {
+    const oneSec = Duration(seconds: 1);
+    _timer = Timer.periodic(
+      oneSec,
+      (_) {
+        if (_start == 0) {
+          setState(() {
+            _timer!.cancel();
+            _start = 5;
+          });
+        } else {
+          setState(() {
+            _start--;
+          });
+        }
+      },
+    );
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
   }
 
   @override
@@ -286,19 +315,59 @@ class _NotificationPageState extends State<NotificationPage> {
                         style: const TextStyle(color: Colors.white),
                       ),
                       onChanged: (newValue) async {
-                        if (newValue) {
-                          service.showNotification(
-                            id: 10,
-                            name: 'Простое уведомление по нажатию на кнопку',
-                            //body: 'Пора пить чай',
-                          );
-                          remindMe = newValue;
-                          setState(() {});
-                        }
-                        //// функция словить появление уведомления????.
+                        _startTimer();
+                        setState(() {
+                          _start = 5;
+                          if (newValue) {
+                            service.showNotification(
+                              id: 10,
+                              name: 'Простое уведомление по нажатию на кнопку',
+                              //body: 'Пора пить чай',
+                            );
+
+                            remindMe = newValue;
+                            print('remindMe $remindMe');
+                            print('newValue $newValue');
+
+                            RestartableTimer(Duration(seconds: 5), (() {
+                              setState(() {
+                                remindMe = false;
+                                newValue = false;
+                                print('new remindMe $remindMe');
+                                print('new newValue $newValue');
+                              });
+                            }));
+                            //// функция словить появление уведомления????
+                          }
+                        });
                       },
+                      // onChanged: (newValue) async {
+                      //   setState(() {
+                      //     startTimer();
+                      //     remindMe = newValue;
+                      //     print('remindMe $remindMe');
+                      //     print('newValue $newValue');
+                      //     newValue
+                      //         ? service.showNotification(
+                      //             id: 10,
+                      //             name:
+                      //                 'Простое уведомление по нажатию на кнопку',
+                      //             //body: 'Пора пить чай',
+                      //           )
+                      //         : Future.delayed(const Duration(seconds: 5))
+                      //             .then((_) {
+                      //             setState(() {
+                      //               remindMe = false;
+                      //               newValue = false;
+                      //               print('new remindMe $remindMe');
+                      //               print('new newValue $newValue');
+                      //             });
+                      //           });
+                      //   });
+                      // },
                     ),
                   ),
+                  Text("$_start")
                 ]),
           ),
         )),
