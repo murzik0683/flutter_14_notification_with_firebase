@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
+//import 'package:firebase_core/firebase_core.dart';
+//import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_14_notification_with_firebase/local_notification_service.dart';
 import 'package:flutter_14_notification_with_firebase/second_screen.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -11,22 +11,22 @@ import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 import 'package:async/async.dart';
 
-/// Канал firebase
-const AndroidNotificationChannel channelFire = AndroidNotificationChannel(
-  'chanel_id_fire',
-  'chanel_title_fire',
-  importance: Importance.high,
-  playSound: true,
-  sound: RawResourceAndroidNotificationSound('fire'),
-  enableLights: true,
-);
+// /// Канал firebase
+// const AndroidNotificationChannel channelFire = AndroidNotificationChannel(
+//   'chanel_id_fire',
+//   'chanel_title_fire',
+//   importance: Importance.high,
+//   playSound: true,
+//   sound: RawResourceAndroidNotificationSound('fire'),
+//   enableLights: true,
+// );
 
-FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-    FlutterLocalNotificationsPlugin();
+// FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+//     FlutterLocalNotificationsPlugin();
 
-Future<void> firebaseMessaging(RemoteMessage message) async {
-  await Firebase.initializeApp();
-}
+// Future<void> firebaseMessaging(RemoteMessage message) async {
+//   await Firebase.initializeApp();
+// }
 
 class NotificationPage extends StatefulWidget {
   const NotificationPage({Key? key}) : super(key: key);
@@ -62,80 +62,80 @@ class _NotificationPageState extends State<NotificationPage> {
 
     /////////////////////////////////////////////////////////////////
     /// Firebase
-    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      RemoteNotification? notification = message.notification;
-      AndroidNotification? androidNotification = message.notification?.android;
-      if (notification != null && androidNotification != null) {
-        flutterLocalNotificationsPlugin.show(
-            notification.hashCode,
-            notification.title,
-            notification.body,
-            NotificationDetails(
-                android: AndroidNotificationDetails(
-                    channelFire.id, channelFire.name,
-                    color: Colors.redAccent,
-                    playSound: true,
-                    sound: const RawResourceAndroidNotificationSound('fire'),
-                    icon: '@drawable/heart',
-                    largeIcon:
-                        const DrawableResourceAndroidBitmap('@drawable/cat'),
-                    enableLights: true)));
-        showDialog(
-            context: context,
-            builder: (_) {
-              return AlertDialog(
-                title: Text(notification.title.toString()),
-                content: SingleChildScrollView(
-                    child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      notification.body.toString(),
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(
-                          fontSize: 22,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.purple),
-                    ),
-                  ],
-                )),
-                actions: [
-                  TextButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    child: Text(
-                      'ОК',
-                      style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.purple.shade900),
-                    ),
-                  ),
-                ],
-              );
-            });
-      }
-    });
-    /////// Что делает этот код?
-    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-      RemoteNotification? notification = message.notification;
-      AndroidNotification? androidNotification = message.notification?.android;
-      if (notification != null && androidNotification != null) {
-        showDialog(
-            context: context,
-            builder: (_) {
-              return AlertDialog(
-                title: Text(notification.title.toString()),
-                content: SingleChildScrollView(
-                    child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [Text(notification.body.toString())],
-                )),
-              );
-            });
-      }
-    });
+    // FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+    //   RemoteNotification? notification = message.notification;
+    //   AndroidNotification? androidNotification = message.notification?.android;
+    //   if (notification != null && androidNotification != null) {
+    //     flutterLocalNotificationsPlugin.show(
+    //         notification.hashCode,
+    //         notification.title,
+    //         notification.body,
+    //         NotificationDetails(
+    //             android: AndroidNotificationDetails(
+    //                 channelFire.id, channelFire.name,
+    //                 color: Colors.redAccent,
+    //                 playSound: true,
+    //                 sound: const RawResourceAndroidNotificationSound('fire'),
+    //                 icon: '@drawable/heart',
+    //                 largeIcon:
+    //                     const DrawableResourceAndroidBitmap('@drawable/cat'),
+    //                 enableLights: true)));
+    //     showDialog(
+    //         context: context,
+    //         builder: (_) {
+    //           return AlertDialog(
+    //             title: Text(notification.title.toString()),
+    //             content: SingleChildScrollView(
+    //                 child: Column(
+    //               crossAxisAlignment: CrossAxisAlignment.start,
+    //               children: [
+    //                 Text(
+    //                   notification.body.toString(),
+    //                   textAlign: TextAlign.center,
+    //                   style: const TextStyle(
+    //                       fontSize: 22,
+    //                       fontWeight: FontWeight.bold,
+    //                       color: Colors.purple),
+    //                 ),
+    //               ],
+    //             )),
+    //             actions: [
+    //               TextButton(
+    //                 onPressed: () {
+    //                   Navigator.pop(context);
+    //                 },
+    //                 child: Text(
+    //                   'ОК',
+    //                   style: TextStyle(
+    //                       fontSize: 20,
+    //                       fontWeight: FontWeight.bold,
+    //                       color: Colors.purple.shade900),
+    //                 ),
+    //               ),
+    //             ],
+    //           );
+    //         });
+    //   }
+    // });
+    // /////// Что делает этот код?
+    // FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+    //   RemoteNotification? notification = message.notification;
+    //   AndroidNotification? androidNotification = message.notification?.android;
+    //   if (notification != null && androidNotification != null) {
+    //     showDialog(
+    //         context: context,
+    //         builder: (_) {
+    //           return AlertDialog(
+    //             title: Text(notification.title.toString()),
+    //             content: SingleChildScrollView(
+    //                 child: Column(
+    //               crossAxisAlignment: CrossAxisAlignment.start,
+    //               children: [Text(notification.body.toString())],
+    //             )),
+    //           );
+    //         });
+    //   }
+    // });
   }
 
   Timer? _timer;
