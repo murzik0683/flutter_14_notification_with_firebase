@@ -11,6 +11,7 @@ import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 import 'package:async/async.dart';
 
+/// Канал firebase
 const AndroidNotificationChannel channelFire = AndroidNotificationChannel(
   'chanel_id_fire',
   'chanel_title_fire',
@@ -116,6 +117,7 @@ class _NotificationPageState extends State<NotificationPage> {
             });
       }
     });
+    /////// Что делает этот код?
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
       RemoteNotification? notification = message.notification;
       AndroidNotification? androidNotification = message.notification?.android;
@@ -136,7 +138,6 @@ class _NotificationPageState extends State<NotificationPage> {
     });
   }
 
-  //RestartableTimer _timer2 = RestartableTimer(Duration(seconds: 1), (() {}));
   Timer? _timer;
   int _start = 5;
   void _startTimer() {
@@ -314,6 +315,8 @@ class _NotificationPageState extends State<NotificationPage> {
                         remindMe ? 'Запланировано!' : 'Запланируй уведомление!',
                         style: const TextStyle(color: Colors.white),
                       ),
+                      //// функция словить появление уведомления при выборе времени????
+                      ////https://translated.turbopages.org/proxy_u/en-ru.ru.6856b561-637346c2-eda58e55-74722d776562/https/stackoverflow.com/questions/53393969/flutter-how-to-best-practice-make-a-countdown-widget
                       onChanged: (newValue) async {
                         _startTimer();
                         setState(() {
@@ -337,7 +340,6 @@ class _NotificationPageState extends State<NotificationPage> {
                                 print('new newValue $newValue');
                               });
                             }));
-                            //// функция словить появление уведомления????
                           }
                         });
                       },

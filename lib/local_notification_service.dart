@@ -5,6 +5,7 @@ import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 import 'package:rxdart/rxdart.dart';
 
+///// Канал локальный
 const AndroidNotificationChannel channelLocal = AndroidNotificationChannel(
     'chanel_id', 'chanel_title',
     importance: Importance.high,
